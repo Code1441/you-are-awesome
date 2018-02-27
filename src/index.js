@@ -8,6 +8,7 @@ const createEnumerableProperty = () =>
 const createNotEnumerableProperty = (prop) => Object.defineProperty(this,prop,
     {  enumerable: false });
 ;
+
 const createProtoMagicObject = () => {
     function Magic(){};
     Magic.prototype= Object.getPrototypeOf(Magic);
@@ -81,11 +82,9 @@ const getDeepPropertiesCount = (obj) => {
     return count;
 };
 const createSerializedObject = () => {
-    return {
-  name: "Василий Иванович",
-  age: 35
-}
+    return new String(JSON.stringify({age: this.age}));
 };
+
 
 
 const toBuffer = () => {};
