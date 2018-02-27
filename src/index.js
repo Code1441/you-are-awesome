@@ -1,18 +1,100 @@
 // DO WHATEVER YOU WANT HERE
 
-const createEnumerableProperty = () => {};
-const createNotEnumerableProperty = () => {};
-const createProtoMagicObject = () => {};
-const incrementor = () => {};
+const createEnumerableProperty = () => 
+	Object.defineProperty(this,arguments[0],{
+    enumerable: true
+});
+
+const createNotEnumerableProperty = (prop) => Object.defineProperty(this,prop,
+    {  enumerable: false });
+;
+const createProtoMagicObject = () => {
+    function Magic(){};
+    Magic.prototype= Object.getPrototypeOf(Magic);
+    var obj = Magic;
+    return obj;
+};
+
+
+function incrementor(){
+    var count = 0;
+    function f(){
+        count++;
+        return f;
+    }
+    f.valueOf= function(){
+        return this.count;
+    }
+    return f;
+
+}
 const asyncIncrementor = () => {};
-const createIncrementer = () => {};
+const createIncrementer = () => {
+    return {
+        startPoint:1,
+        endPoint: Infinity,
+
+        [Symbol.iterator](){
+            return this;
+        },
+        next(){
+          if(this.current === undefined){
+              this.current = this.startPoint;
+          }
+          if(this.current < this.endPoint){
+              return {
+                  done: false,
+                  value: this.current++
+              }
+          }
+          if(this.current == this.endPoint){
+              return {
+                  done: true
+              }
+          }
+        }
+    }
+}
+
 
 // return same argument not earlier than in one second, and not later, than in two
-const returnBackInSecond = () => {};
-const getDeepPropertiesCount = () => {};
-const createSerializedObject = () => {};
+const returnBackInSecond = (param) => {
+    return new Promise((resolve, reject) => {
+         setTimeout(() => {
+            resolve(param);
+        }, 1000);
+    })
+};
+const getDeepPropertiesCount = (obj) => {
+    if (Object.keys(obj).length === 1) {
+        for(var pole in obj){
+            if(typeof obj[pole] !== 'object') return 1;
+        }
+    }
+    var count = Object.keys(obj).length, result;
+    for (var pole in obj) {
+        if (obj.hasOwnProperty(pole) && typeof obj[pole] === 'object') {
+            result = getDeepPropertiesCount(obj[pole]);
+            count += result;
+        }
+    }
+    return count;
+};
+const createSerializedObject = () => {
+    return {
+  name: "Василий Иванович",
+  age: 35
+}
+};
+
+
 const toBuffer = () => {};
-const sortByProto = () => {};
+const sortByProto = (array) => {
+    array.sort(function(a,b){
+        Object.getPrototypeOf(a) > Object.getPrototypeOf(b) ? true : false;
+    });
+    return array;
+};
 
 exports.createEnumerableProperty = createEnumerableProperty;
 exports.createNotEnumerableProperty = createNotEnumerableProperty;
