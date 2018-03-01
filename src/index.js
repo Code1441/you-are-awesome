@@ -5,9 +5,10 @@ const createEnumerableProperty = () =>
     enumerable: true
 });
 
-const createNotEnumerableProperty = (prop) => Object.defineProperty(this,prop,
-    {  enumerable: false });
-;
+const createNotEnumerableProperty = (prop) =>   {
+    var symbol =  Symbol(prop);
+    return symbol;
+};
 
 const createProtoMagicObject = () => {
     function Magic(){};
