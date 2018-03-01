@@ -18,19 +18,33 @@ const createProtoMagicObject = () => {
 };
 
 
-function incrementor(){
-    var count = 0;
-    function f(){
+
+const incrementor = () => {
+    var count = incrementor.data+1 || 1;
+    f =( ) => {
         count++;
+        incrementor.data = count;
         return f;
     }
-    f.valueOf= function(){
-        return this.count;
-    }
-    return f;
 
+    f.toString = ()=> count;
+
+    return f;
 }
-const asyncIncrementor = () => {};
+
+
+function asyncIncrementor() {
+    var count = asyncIncrementor.data || 0;
+    f =( ) => {
+        count++;
+        asyncIncrementor.data = count;
+        return count;
+    }
+
+    f.toString = ()=> count;
+
+    return f();
+}
 const createIncrementer = () => {
     return {
         startPoint:1,
